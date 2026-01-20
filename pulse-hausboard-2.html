@@ -48,22 +48,22 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 h-screen overflow-hidden p-6">
+<body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 h-screen overflow-hidden p-8">
     
     <div class="h-full flex flex-col">
         
         <!-- Top Bar: Datum/Uhrzeit und Wetter -->
-        <div class="flex justify-between items-center mb-6">
+        <div class="flex justify-between items-center mb-8">
             <!-- Datum und Uhrzeit links -->
             <div class="text-left">
-                <p class="text-slate-400 text-xs mb-1">Heute</p>
-                <p class="text-white text-xl font-bold mb-0.5">23.01.2026</p>
-                <p class="text-slate-300 text-base">09:50 Uhr</p>
+                <p class="text-slate-400 text-base mb-2">Heute</p>
+                <p class="text-white text-3xl font-bold mb-1">23.01.2026</p>
+                <p class="text-slate-300 text-2xl">09:50 Uhr</p>
             </div>
             
             <!-- Logo Mitte mit Haus - VIEL GRÖSSER -->
             <div class="text-center">
-                <div class="flex items-center justify-center gap-6 mb-3">
+                <div class="flex items-center justify-center gap-6 mb-4">
                     <!-- Pulsierendes Haus - DOPPELT SO GROSS -->
                     <div class="relative inline-block">
                         <svg width="110" height="99" viewBox="0 0 200 180" class="drop-shadow-2xl">
@@ -89,13 +89,13 @@
                     
                     <h1 class="text-7xl font-bold text-white tracking-tight">Pulse</h1>
                 </div>
-                <p class="text-slate-300 text-lg font-light">Der Herzschlag deiner Nachbarschaft</p>
+                <p class="text-slate-300 text-xl font-light">Der Herzschlag deiner Nachbarschaft</p>
             </div>
             
             <!-- Wetter rechts -->
             <div class="text-right">
-                <div class="flex items-center gap-2 justify-end">
-                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <div class="flex items-center gap-3 justify-end">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"/>
                         <line x1="12" y1="1" x2="12" y2="3"/>
                         <line x1="12" y1="21" x2="12" y2="23"/>
@@ -107,49 +107,49 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
                     </svg>
                     <div>
-                        <p class="text-3xl font-bold text-white">4°</p>
-                        <p class="text-slate-400 text-xs">Sonnig</p>
+                        <p class="text-4xl font-bold text-white">4°</p>
+                        <p class="text-slate-400 text-sm">Sonnig</p>
                     </div>
                 </div>
             </div>
         </div>
         
         <!-- Main Content: 3 Columns -->
-        <div class="flex-1 grid grid-cols-3 gap-6 overflow-hidden">
+        <div class="flex-1 grid grid-cols-3 gap-8 overflow-hidden">
             
             <!-- Left Column: Greetings + Events -->
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-6">
                 <!-- Begrüßungen -->
-                <div class="bg-gradient-to-r from-rose-500/10 to-pink-500/10 border border-rose-500/20 rounded-2xl p-5">
-                    <div class="flex items-center justify-between mb-3">
-                        <div class="flex items-center gap-3">
-                            <div class="p-2.5 bg-rose-500/20 rounded-xl relative">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2">
+                <div class="bg-gradient-to-r from-rose-500/10 to-pink-500/10 border border-rose-500/20 rounded-2xl p-8">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-4">
+                            <div class="p-3 bg-rose-500/20 rounded-xl relative">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2">
                                     <path d="M7 10v12"></path>
                                     <path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z"></path>
                                 </svg>
-                                <div class="absolute -top-0.5 -right-0.5 w-5 h-5 bg-rose-500 rounded-full flex items-center justify-center">
-                                    <span class="text-white text-xs font-bold">3</span>
+                                <div class="absolute -top-1 -right-1 w-6 h-6 bg-rose-500 rounded-full flex items-center justify-center">
+                                    <span class="text-white text-sm font-bold">3</span>
                                 </div>
                             </div>
                             <div>
-                                <p class="text-slate-300 text-xs mb-0.5">Neue Begrüßungen</p>
-                                <p class="text-lg font-bold text-white">👋 Willkommen!</p>
+                                <p class="text-slate-300 text-sm mb-1">Neue Begrüßungen</p>
+                                <p class="text-2xl font-bold text-white">👋 Willkommen!</p>
                             </div>
                         </div>
                         <div class="text-right">
-                            <p class="text-3xl font-bold text-rose-300">3</p>
-                            <p class="text-slate-400 text-xs">Hallo-Grüße</p>
+                            <p class="text-4xl font-bold text-rose-300">3</p>
+                            <p class="text-slate-400 text-sm">Hallo-Grüße</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Event Cards -->
-                <div class="flex-1 space-y-3 overflow-y-auto">
+                <div class="flex-1 space-y-4 overflow-y-auto">
                     <!-- Garagenreinigung -->
-                    <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-xl p-4">
-                        <div class="flex items-start gap-3">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2">
+                    <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-xl p-5">
+                        <div class="flex items-start gap-4">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2">
                                 <path d="M3 6h18"></path>
                                 <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
                                 <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
@@ -157,37 +157,37 @@
                                 <line x1="14" y1="11" x2="14" y2="17"></line>
                             </svg>
                             <div class="flex-1">
-                                <p class="text-white font-semibold text-sm mb-0.5">Morgen</p>
-                                <p class="text-slate-300 text-sm">Garagenreinigung</p>
-                                <p class="text-slate-400 text-xs">07:00 - 19:00 Uhr</p>
+                                <p class="text-white font-semibold text-base mb-1">Morgen</p>
+                                <p class="text-slate-300 text-base">Garagenreinigung</p>
+                                <p class="text-slate-400 text-sm">07:00 - 19:00 Uhr</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Stromablesung -->
-                    <div class="bg-gradient-to-br from-rose-500 to-rose-600 rounded-xl p-4 shadow-lg shadow-rose-500/20">
-                        <div class="flex items-start gap-3">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <div class="bg-gradient-to-br from-rose-500 to-rose-600 rounded-xl p-5 shadow-lg shadow-rose-500/20">
+                        <div class="flex items-start gap-4">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                                 <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
                             </svg>
                             <div class="flex-1">
-                                <p class="text-white font-semibold text-sm mb-0.5">Wichtig</p>
-                                <p class="text-rose-100 text-sm font-medium">Stromablesung</p>
-                                <p class="text-rose-100 text-xs">02.02.2026</p>
+                                <p class="text-white font-semibold text-base mb-1">Wichtig</p>
+                                <p class="text-rose-100 text-base font-medium">Stromablesung</p>
+                                <p class="text-rose-100 text-sm">02.02.2026</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Repair Café -->
-                    <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-xl p-4">
-                        <div class="flex items-start gap-3">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2">
+                    <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-xl p-5">
+                        <div class="flex items-start gap-4">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2">
                                 <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
                             </svg>
                             <div class="flex-1">
-                                <p class="text-white font-semibold text-sm mb-0.5">Samstag</p>
-                                <p class="text-slate-300 text-sm">Repair Café</p>
-                                <p class="text-slate-400 text-xs">Gemeinschaftsraum, ab 13:00</p>
+                                <p class="text-white font-semibold text-base mb-1">Samstag</p>
+                                <p class="text-slate-300 text-base">Repair Café</p>
+                                <p class="text-slate-400 text-sm">Gemeinschaftsraum, ab 13:00</p>
                             </div>
                         </div>
                     </div>
@@ -195,60 +195,60 @@
             </div>
             
             <!-- Middle Column: Main Info -->
-            <div class="flex flex-col gap-4 overflow-y-auto">
+            <div class="flex flex-col gap-6 overflow-y-auto">
                 
                 <!-- Zeitfenster -->
-                <div class="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-xl p-4">
+                <div class="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-2xl p-6">
                     <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="p-2 bg-blue-500/20 rounded-lg">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2">
+                        <div class="flex items-center gap-4">
+                            <div class="p-3 bg-blue-500/20 rounded-xl">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2">
                                     <circle cx="12" cy="12" r="10"></circle>
                                     <polyline points="12 6 12 12 16 14"></polyline>
                                 </svg>
                             </div>
                             <div>
-                                <p class="text-slate-300 text-xs mb-0.5">Beliebtes Zeitfenster</p>
-                                <p class="text-xl font-bold text-white">17:00-19:00</p>
+                                <p class="text-slate-300 text-sm mb-1">Beliebtes Zeitfenster</p>
+                                <p class="text-3xl font-bold text-white">17:00-19:00</p>
                             </div>
                         </div>
                         <div class="text-right">
-                            <p class="text-2xl font-bold text-blue-300">8</p>
-                            <p class="text-slate-400 text-xs">Personen</p>
+                            <p class="text-4xl font-bold text-blue-300">8</p>
+                            <p class="text-slate-400 text-sm">Personen</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Bedürfnisse im Haus - GRÖSSER -->
-                <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6 flex-1">
-                    <h3 class="text-slate-300 text-sm uppercase tracking-wide mb-5">Bedürfnisse im Haus</h3>
-                    <div class="grid grid-cols-3 gap-5">
+                <div class="bg-slate-800/50 border border-slate-700 rounded-2xl p-8 flex-1">
+                    <h3 class="text-slate-300 text-base uppercase tracking-wide mb-8">Bedürfnisse im Haus</h3>
+                    <div class="grid grid-cols-3 gap-8">
                         <!-- Kurzer Plausch -->
                         <div class="text-center">
-                            <div class="inline-block p-4 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl mb-3">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <div class="inline-block p-5 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl mb-4">
+                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                                 </svg>
                             </div>
-                            <p class="text-3xl font-bold text-white mb-1">8</p>
-                            <p class="text-slate-400 text-sm">Kurzer Plausch</p>
+                            <p class="text-5xl font-bold text-white mb-2">8</p>
+                            <p class="text-slate-400 text-base">Kurzer Plausch</p>
                         </div>
                         
                         <!-- Gemeinsam aktiv -->
                         <div class="text-center">
-                            <div class="inline-block p-4 bg-gradient-to-br from-green-400 to-green-600 rounded-xl mb-3">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <div class="inline-block p-5 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl mb-4">
+                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                                     <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
                                 </svg>
                             </div>
-                            <p class="text-3xl font-bold text-white mb-1">5</p>
-                            <p class="text-slate-400 text-sm">Gemeinsam aktiv</p>
+                            <p class="text-5xl font-bold text-white mb-2">5</p>
+                            <p class="text-slate-400 text-base">Gemeinsam aktiv</p>
                         </div>
                         
                         <!-- Kleine Hilfe -->
                         <div class="text-center">
-                            <div class="inline-block p-4 bg-gradient-to-br from-amber-400 to-amber-600 rounded-xl mb-3">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <div class="inline-block p-5 bg-gradient-to-br from-amber-400 to-amber-600 rounded-2xl mb-4">
+                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                                     <path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17"></path>
                                     <path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"></path>
                                     <path d="m2 16 6 6"></path>
@@ -256,25 +256,25 @@
                                     <circle cx="6" cy="5" r="3"></circle>
                                 </svg>
                             </div>
-                            <p class="text-3xl font-bold text-white mb-1">3</p>
-                            <p class="text-slate-400 text-sm">Kleine Hilfe</p>
+                            <p class="text-5xl font-bold text-white mb-2">3</p>
+                            <p class="text-slate-400 text-base">Kleine Hilfe</p>
                         </div>
                         
                         <!-- Reparieren -->
                         <div class="text-center">
-                            <div class="inline-block p-4 bg-gradient-to-br from-purple-400 to-purple-600 rounded-xl mb-3">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <div class="inline-block p-5 bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl mb-4">
+                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                                     <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
                                 </svg>
                             </div>
-                            <p class="text-3xl font-bold text-white mb-1">4</p>
-                            <p class="text-slate-400 text-sm">Reparieren</p>
+                            <p class="text-5xl font-bold text-white mb-2">4</p>
+                            <p class="text-slate-400 text-base">Reparieren</p>
                         </div>
 
                         <!-- Essen teilen -->
                         <div class="text-center">
-                            <div class="inline-block p-4 bg-gradient-to-br from-rose-400 to-rose-600 rounded-xl mb-3">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <div class="inline-block p-5 bg-gradient-to-br from-rose-400 to-rose-600 rounded-2xl mb-4">
+                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                                     <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
                                     <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
                                     <line x1="6" y1="1" x2="6" y2="4"></line>
@@ -282,58 +282,58 @@
                                     <line x1="14" y1="1" x2="14" y2="4"></line>
                                 </svg>
                             </div>
-                            <p class="text-3xl font-bold text-white mb-1">6</p>
-                            <p class="text-slate-400 text-sm">Essen teilen</p>
+                            <p class="text-5xl font-bold text-white mb-2">6</p>
+                            <p class="text-slate-400 text-base">Essen teilen</p>
                         </div>
 
                         <!-- Spielzeit -->
                         <div class="text-center">
-                            <div class="inline-block p-4 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-xl mb-3">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <div class="inline-block p-5 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-2xl mb-4">
+                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                                     <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"></path>
                                     <path d="m9 12 2 2 4-4"></path>
                                 </svg>
                             </div>
-                            <p class="text-3xl font-bold text-white mb-1">7</p>
-                            <p class="text-slate-400 text-sm">Spielzeit & Kids</p>
+                            <p class="text-5xl font-bold text-white mb-2">7</p>
+                            <p class="text-slate-400 text-base">Spielzeit & Kids</p>
                         </div>
                     </div>
                 </div>
             </div>
             
             <!-- Right Column: Activity Feed -->
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-6">
                 <!-- Gerade im Haus -->
-                <div class="bg-slate-800/30 border border-slate-700 rounded-xl p-4 flex-1 overflow-y-auto">
-                    <h3 class="text-slate-300 text-xs uppercase tracking-wide mb-3">Gerade im Haus</h3>
-                    <div class="space-y-2.5">
-                        <div class="flex items-start gap-2 py-2">
-                            <div class="w-1.5 h-1.5 bg-green-400 rounded-full mt-1.5"></div>
+                <div class="bg-slate-800/30 border border-slate-700 rounded-2xl p-6 flex-1 overflow-y-auto">
+                    <h3 class="text-slate-300 text-base uppercase tracking-wide mb-6">Gerade im Haus</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3 py-3">
+                            <div class="w-2 h-2 bg-green-400 rounded-full mt-2"></div>
                             <div class="flex-1">
-                                <p class="text-slate-300 text-sm">Jemand geht zum Supermarkt</p>
-                                <p class="text-slate-500 text-xs">in 10 Min</p>
+                                <p class="text-slate-300 text-base">Jemand geht zum Supermarkt</p>
+                                <p class="text-slate-500 text-sm">in 10 Min</p>
                             </div>
                         </div>
-                        <div class="flex items-start gap-2 py-2">
-                            <div class="w-1.5 h-1.5 bg-green-400 rounded-full mt-1.5"></div>
+                        <div class="flex items-start gap-3 py-3">
+                            <div class="w-2 h-2 bg-green-400 rounded-full mt-2"></div>
                             <div class="flex-1">
-                                <p class="text-slate-300 text-sm">Mehrere im Innenhof</p>
-                                <p class="text-slate-500 text-xs">jetzt</p>
+                                <p class="text-slate-300 text-base">Mehrere im Innenhof</p>
+                                <p class="text-slate-500 text-sm">jetzt</p>
                             </div>
                         </div>
-                        <div class="flex items-start gap-2 py-2">
-                            <div class="w-1.5 h-1.5 bg-amber-400 rounded-full mt-1.5"></div>
+                        <div class="flex items-start gap-3 py-3">
+                            <div class="w-2 h-2 bg-amber-400 rounded-full mt-2"></div>
                             <div class="flex-1">
-                                <p class="text-slate-300 text-sm">Hausflur-Kaffee möglich</p>
-                                <p class="text-slate-500 text-xs">17:30</p>
+                                <p class="text-slate-300 text-base">Hausflur-Kaffee möglich</p>
+                                <p class="text-slate-500 text-sm">17:30</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Footer Info -->
-                <div class="bg-slate-800/20 border border-slate-700 rounded-xl p-3">
-                    <p class="text-slate-500 text-[10px] text-center">
+                <div class="bg-slate-800/20 border border-slate-700 rounded-xl p-4">
+                    <p class="text-slate-500 text-xs text-center">
                         Updates alle 2 Minuten • Vollständig anonym
                     </p>
                 </div>
