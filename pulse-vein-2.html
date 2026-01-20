@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulse.vein - Deine Nachbarschafts-App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(244, 63, 94, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(244, 63, 94, 0.8);
+            }
+        }
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            10% {
+                transform: scale(1.15);
+            }
+            20% {
+                transform: scale(1);
+            }
+            30% {
+                transform: scale(1.15);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+        .heartbeat {
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 min-h-screen">
+    
+    <div class="max-w-md mx-auto p-6">
+        
+        <!-- User Login Display + Meine Aktivitäten -->
+        <div class="flex justify-between items-center gap-3 mb-4 pt-2">
+            <!-- Meine Aktivitäten Button -->
+            <button onclick="openMyActivities()" class="bg-slate-800/70 border border-slate-700 hover:bg-slate-700 rounded-xl px-3 py-2 flex items-center gap-2 transition-all">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <div class="text-xs">
+                    <p class="text-slate-200 font-medium">Meine Aktivitäten</p>
+                </div>
+            </button>
+            
+            <!-- Login Display -->
+            <div class="bg-slate-800/70 border border-slate-700 rounded-xl px-3 py-2 flex items-center gap-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <div class="text-xs">
+                    <p class="text-slate-400">Angemeldet als</p>
+                    <p class="text-slate-200 font-medium">Heinestraße 16, TOP 13</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="flex items-center justify-center gap-2 mb-2">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="#f43f5e" stroke="#f43f5e" stroke-width="2" class="heartbeat">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+                <h1 class="text-3xl font-bold text-white">Pulse<span class="text-rose-400">.vein</span></h1>
+            </div>
+            <p class="text-slate-400 text-sm">Deine Verbindung zur Nachbarschaft</p>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-4 text-center">
+                <p class="text-2xl font-bold text-white">7</p>
+                <p class="text-slate-400 text-xs">Offen für Kontakt</p>
+            </div>
+            <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-4 text-center">
+                <p class="text-2xl font-bold text-white">17:00-19:00</p>
+                <p class="text-slate-400 text-xs">Beliebt heute</p>
+            </div>
+        </div>
+
+        <!-- Dein Status -->
+        <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-6 mb-6">
+            <h2 class="text-white font-semibold mb-4 flex items-center gap-2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                Dein Status
+            </h2>
+            
+            <div class="space-y-3">
+                <!-- Kontaktbereitschaft Toggle -->
+                <div id="contactToggle" class="bg-slate-700/50 hover:bg-slate-700 rounded-xl p-4 cursor-pointer transition-all border-2 border-transparent" onclick="toggleContact()">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-3 h-3 bg-gray-400 rounded-full" id="contactIndicator"></div>
+                            <span class="text-slate-300 font-medium" id="contactText">Nicht offen</span>
+                        </div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Bedürfnis wählen -->
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="selectNeed('plausch')" class="need-btn bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 rounded-lg p-3 text-center transition-all">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" class="mx-auto mb-1">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        <p class="text-blue-300 text-xs font-medium">Kurzer Plausch</p>
+                    </button>
+                    
+                    <button onclick="selectNeed('aktiv')" class="need-btn bg-green-500/20 hover:bg-green-500/30 border border-green-500/30 rounded-lg p-3 text-center transition-all">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" class="mx-auto mb-1">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                        </svg>
+                        <p class="text-green-300 text-xs font-medium">Gemeinsam aktiv</p>
+                    </button>
+                    
+                    <button onclick="selectNeed('hilfe')" class="need-btn bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/30 rounded-lg p-3 text-center transition-all">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" class="mx-auto mb-1">
+                            <path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17"></path>
+                            <path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"></path>
+                            <path d="m2 16 6 6"></path>
+                            <circle cx="16" cy="9" r="2.9"></circle>
+                            <circle cx="6" cy="5" r="3"></circle>
+                        </svg>
+                        <p class="text-amber-300 text-xs font-medium">Kleine Hilfe</p>
+                    </button>
+                    
+                    <button onclick="selectNeed('reparieren')" class="need-btn bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 rounded-lg p-3 text-center transition-all">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2" class="mx-auto mb-1">
+                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                        </svg>
+                        <p class="text-purple-300 text-xs font-medium">Reparieren</p>
+                    </button>
+                    
+                    <button onclick="selectNeed('essen')" class="need-btn bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/30 rounded-lg p-3 text-center transition-all">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2" class="mx-auto mb-1">
+                            <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                            <line x1="6" y1="1" x2="6" y2="4"></line>
+                            <line x1="10" y1="1" x2="10" y2="4"></line>
+                            <line x1="14" y1="1" x2="14" y2="4"></line>
+                        </svg>
+                        <p class="text-rose-300 text-xs font-medium">Essen teilen</p>
+                    </button>
+                    
+                    <button onclick="selectNeed('kids')" class="need-btn bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 rounded-lg p-3 text-center transition-all">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2" class="mx-auto mb-1">
+                            <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"></path>
+                            <path d="m9 12 2 2 4-4"></path>
+                        </svg>
+                        <p class="text-cyan-300 text-xs font-medium">Spielzeit</p>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schnellaktionen -->
+        <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-6 mb-6">
+            <h2 class="text-white font-semibold mb-4 flex items-center gap-2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                Schnellaktionen
+            </h2>
+            
+            <div class="space-y-3">
+                <button onclick="quickAction('hallo')" class="w-full bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white font-medium py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2 pulse-glow">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M7 10v12"></path>
+                        <path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z"></path>
+                    </svg>
+                    Hallo sagen
+                </button>
+                
+                <button onclick="openIntercom()" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-medium py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+                    </svg>
+                    Gegensprechanlage
+                </button>
+            </div>
+        </div>
+
+        <!-- Meine TOP 3 -->
+        <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-6 mb-6">
+            <h2 class="text-white font-semibold mb-4 flex items-center gap-2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                Meine TOP 3
+            </h2>
+            
+            <div class="space-y-2">
+                <button onclick="quickTop3('plausch')" class="w-full bg-slate-700/50 hover:bg-slate-700 text-slate-200 py-3 px-4 rounded-xl transition-all text-left flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-blue-500/20 rounded-lg">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                        </div>
+                        <span class="text-sm">Kurzer Plausch</span>
+                    </div>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+                
+                <button onclick="quickTop3('essen')" class="w-full bg-slate-700/50 hover:bg-slate-700 text-slate-200 py-3 px-4 rounded-xl transition-all text-left flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-rose-500/20 rounded-lg">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2">
+                                <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                                <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                                <line x1="6" y1="1" x2="6" y2="4"></line>
+                                <line x1="10" y1="1" x2="10" y2="4"></line>
+                                <line x1="14" y1="1" x2="14" y2="4"></line>
+                            </svg>
+                        </div>
+                        <span class="text-sm">Essen und Kochen teilen</span>
+                    </div>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+                
+                <button onclick="quickTop3('hilfe')" class="w-full bg-slate-700/50 hover:bg-slate-700 text-slate-200 py-3 px-4 rounded-xl transition-all text-left flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-amber-500/20 rounded-lg">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2">
+                                <path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17"></path>
+                                <path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"></path>
+                                <path d="m2 16 6 6"></path>
+                                <circle cx="16" cy="9" r="2.9"></circle>
+                                <circle cx="6" cy="5" r="3"></circle>
+                            </svg>
+                        </div>
+                        <span class="text-sm">Kleine Hilfe</span>
+                    </div>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Aktivität starten Button -->
+        <div class="mb-6">
+            <button onclick="openActivityModal()" class="w-full bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white font-semibold py-4 px-6 rounded-2xl transition-all shadow-lg pulse-glow flex items-center justify-center gap-2">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                </svg>
+                Aktivität starten
+            </button>
+        </div>
+
+        <!-- Aktuelles im Haus -->
+        <div class="bg-slate-800/30 border border-slate-700 rounded-2xl p-6 mb-6">
+            <h2 class="text-white font-semibold mb-4 text-sm">Aktuelles im Haus</h2>
+            <div class="space-y-3">
+                <!-- Item 1 -->
+                <div>
+                    <div onclick="toggleActivity(1)" class="flex items-start gap-3 text-sm cursor-pointer hover:bg-slate-700/30 p-2 rounded-lg transition-all">
+                        <div class="w-2 h-2 bg-blue-400 rounded-full mt-1.5"></div>
+                        <div class="flex-1">
+                            <p class="text-slate-300">Beliebtes Zeitfenster heute</p>
+                            <p class="text-slate-500 text-xs">17:00-19:00 Uhr • 8 Personen</p>
+                        </div>
+                        <svg id="arrow-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" class="transition-transform">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                    <div id="activity-1" class="hidden ml-5 mt-2 p-3 bg-slate-700/50 rounded-lg text-xs">
+                        <div class="space-y-1 mb-3">
+                            <p><span class="text-slate-400">Titel:</span> <span class="text-slate-200">Zeitfenster für Kontakt</span></p>
+                            <p><span class="text-slate-400">Kategorie:</span> <span class="text-slate-200">Kurzer Plausch</span></p>
+                            <p><span class="text-slate-400">Zeit:</span> <span class="text-slate-200">17:00-19:00 Uhr</span></p>
+                            <p><span class="text-slate-400">Ort:</span> <span class="text-slate-200">Hausflur</span></p>
+                            <p><span class="text-slate-400">TOP Nr:</span> <span class="text-slate-200">Mehrere</span></p>
+                        </div>
+                        <button onclick="joinActivity(1)" class="w-full bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white font-medium py-2 px-3 rounded-lg transition-all text-xs">
+                            Anmelden
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div>
+                    <div onclick="toggleActivity(2)" class="flex items-start gap-3 text-sm cursor-pointer hover:bg-slate-700/30 p-2 rounded-lg transition-all">
+                        <div class="w-2 h-2 bg-green-400 rounded-full mt-1.5"></div>
+                        <div class="flex-1">
+                            <p class="text-slate-300">Jemand geht zum Supermarkt</p>
+                            <p class="text-slate-500 text-xs">in 10 Min</p>
+                        </div>
+                        <svg id="arrow-2" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" class="transition-transform">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                    <div id="activity-2" class="hidden ml-5 mt-2 p-3 bg-slate-700/50 rounded-lg text-xs">
+                        <div class="space-y-1 mb-3">
+                            <p><span class="text-slate-400">Titel:</span> <span class="text-slate-200">Einkauf beim Supermarkt</span></p>
+                            <p><span class="text-slate-400">Kategorie:</span> <span class="text-slate-200">Kleine Hilfe</span></p>
+                            <p><span class="text-slate-400">Zeit:</span> <span class="text-slate-200">10:00 Uhr</span></p>
+                            <p><span class="text-slate-400">Ort:</span> <span class="text-slate-200">Hauseingang</span></p>
+                            <p><span class="text-slate-400">TOP Nr:</span> <span class="text-slate-200">TOP 7</span></p>
+                        </div>
+                        <button onclick="joinActivity(2)" class="w-full bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white font-medium py-2 px-3 rounded-lg transition-all text-xs">
+                            Anmelden
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div>
+                    <div onclick="toggleActivity(3)" class="flex items-start gap-3 text-sm cursor-pointer hover:bg-slate-700/30 p-2 rounded-lg transition-all">
+                        <div class="w-2 h-2 bg-amber-400 rounded-full mt-1.5"></div>
+                        <div class="flex-1">
+                            <p class="text-slate-300">Hausflur-Kaffee möglich</p>
+                            <p class="text-slate-500 text-xs">17:30</p>
+                        </div>
+                        <svg id="arrow-3" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" class="transition-transform">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                    <div id="activity-3" class="hidden ml-5 mt-2 p-3 bg-slate-700/50 rounded-lg text-xs">
+                        <div class="space-y-1 mb-3">
+                            <p><span class="text-slate-400">Titel:</span> <span class="text-slate-200">5-Min-Kaffee</span></p>
+                            <p><span class="text-slate-400">Kategorie:</span> <span class="text-slate-200">Essen und Kochen teilen</span></p>
+                            <p><span class="text-slate-400">Zeit:</span> <span class="text-slate-200">17:30 Uhr</span></p>
+                            <p><span class="text-slate-400">Ort:</span> <span class="text-slate-200">Hausflur</span></p>
+                            <p><span class="text-slate-400">TOP Nr:</span> <span class="text-slate-200">TOP 5</span></p>
+                        </div>
+                        <button onclick="joinActivity(3)" class="w-full bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white font-medium py-2 px-3 rounded-lg transition-all text-xs">
+                            Anmelden
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center pb-6">
+            <p class="text-slate-500 text-xs">Vollständig anonym • Deine Daten bleiben privat</p>
+        </div>
+
+    </div>
+
+    <!-- Intercom Modal (Gegensprechanlage) -->
+    <div id="intercomModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300 z-50">
+        <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-3xl p-6 max-w-md w-full transform scale-95 transition-transform duration-300" id="intercomContent">
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2">
+                        <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                        <circle cx="12" cy="12" r="2"></circle>
+                        <path d="M6 12h.01"></path>
+                        <path d="M18 12h.01"></path>
+                    </svg>
+                    Gegensprechanlage
+                </h3>
+                <button onclick="closeIntercom()" class="text-slate-400 hover:text-white transition-colors">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Video Display -->
+            <div class="bg-black rounded-xl mb-6 aspect-video flex items-center justify-center border-2 border-slate-700">
+                <div class="text-center">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="1.5" class="mx-auto mb-2">
+                        <path d="M23 7l-7 5 7 5V7z"></path>
+                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                    </svg>
+                    <p class="text-slate-500 text-sm">Kamera bereit</p>
+                </div>
+            </div>
+
+            <!-- Apartment List -->
+            <div class="bg-slate-800/50 rounded-xl p-4 mb-6 max-h-48 overflow-y-auto">
+                <h4 class="text-slate-300 text-sm font-medium mb-3">Wohnungen anrufen</h4>
+                <div class="space-y-2">
+                    <button onclick="callApartment('TOP 1')" class="w-full text-left p-2 hover:bg-slate-700 rounded-lg transition-all flex items-center justify-between">
+                        <span class="text-slate-200 text-sm">TOP 1</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                    </button>
+                    <button onclick="callApartment('TOP 5')" class="w-full text-left p-2 hover:bg-slate-700 rounded-lg transition-all flex items-center justify-between">
+                        <span class="text-slate-200 text-sm">TOP 5</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                    </button>
+                    <button onclick="callApartment('TOP 7')" class="w-full text-left p-2 hover:bg-slate-700 rounded-lg transition-all flex items-center justify-between">
+                        <span class="text-slate-200 text-sm">TOP 7</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                    </button>
+                    <button onclick="callApartment('TOP 13')" class="w-full text-left p-2 bg-rose-500/20 border border-rose-500/50 rounded-lg flex items-center justify-between">
+                        <span class="text-rose-200 text-sm font-medium">TOP 13 (Du)</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="speakIntercom()" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                        <line x1="12" y1="19" x2="12" y2="23"></line>
+                        <line x1="8" y1="23" x2="16" y2="23"></line>
+                    </svg>
+                    Sprechen
+                </button>
+                <button onclick="openDoor()" class="bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <rect x="3" y="1" width="18" height="22" rx="2" ry="2"></rect>
+                        <circle cx="16" cy="12" r="1"></circle>
+                    </svg>
+                    Tür öffnen
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- My Activities Modal (Meine Aktivitäten) -->
+    <div id="myActivitiesModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300 z-50">
+        <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-3xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto transform scale-95 transition-transform duration-300" id="myActivitiesContent">
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    Meine Aktivitäten
+                </h3>
+                <button onclick="closeMyActivities()" class="text-slate-400 hover:text-white transition-colors">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Activities Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b border-slate-700">
+                            <th class="text-left text-slate-300 text-sm font-medium pb-3">Datum</th>
+                            <th class="text-left text-slate-300 text-sm font-medium pb-3">Aktivität</th>
+                            <th class="text-left text-slate-300 text-sm font-medium pb-3">Raum</th>
+                            <th class="text-right text-slate-300 text-sm font-medium pb-3">Aktionen</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-700">
+                        <!-- Entry 1 -->
+                        <tr class="hover:bg-slate-700/30">
+                            <td class="py-3 text-slate-200 text-sm">23.01.2026</td>
+                            <td class="py-3 text-slate-200 text-sm">Spieleabend</td>
+                            <td class="py-3 text-slate-200 text-sm">Gemeinschaftsraum 2</td>
+                            <td class="py-3 text-right">
+                                <div class="flex gap-2 justify-end">
+                                    <button onclick="editActivity(1)" class="p-1.5 hover:bg-blue-500/20 rounded transition-all" title="Bearbeiten">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2">
+                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                        </svg>
+                                    </button>
+                                    <button onclick="deleteActivity(1)" class="p-1.5 hover:bg-red-500/20 rounded transition-all" title="Löschen">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2">
+                                            <polyline points="3 6 5 6 21 6"></polyline>
+                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Entry 2 -->
+                        <tr class="hover:bg-slate-700/30">
+                            <td class="py-3 text-slate-200 text-sm">14.02.2026</td>
+                            <td class="py-3 text-slate-200 text-sm">Faschingsparty</td>
+                            <td class="py-3 text-slate-200 text-sm">Innenhof</td>
+                            <td class="py-3 text-right">
+                                <div class="flex gap-2 justify-end">
+                                    <button onclick="editActivity(2)" class="p-1.5 hover:bg-blue-500/20 rounded transition-all" title="Bearbeiten">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2">
+                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                        </svg>
+                                    </button>
+                                    <button onclick="deleteActivity(2)" class="p-1.5 hover:bg-red-500/20 rounded transition-all" title="Löschen">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2">
+                                            <polyline points="3 6 5 6 21 6"></polyline>
+                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Entry 3 -->
+                        <tr class="hover:bg-slate-700/30">
+                            <td class="py-3 text-slate-200 text-sm">15.02.2026</td>
+                            <td class="py-3 text-slate-200 text-sm">Konfettiaufräumparty</td>
+                            <td class="py-3 text-slate-200 text-sm">Innenhof</td>
+                            <td class="py-3 text-right">
+                                <div class="flex gap-2 justify-end">
+                                    <button onclick="editActivity(3)" class="p-1.5 hover:bg-blue-500/20 rounded transition-all" title="Bearbeiten">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2">
+                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                        </svg>
+                                    </button>
+                                    <button onclick="deleteActivity(3)" class="p-1.5 hover:bg-red-500/20 rounded transition-all" title="Löschen">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2">
+                                            <polyline points="3 6 5 6 21 6"></polyline>
+                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Entry 4 -->
+                        <tr class="hover:bg-slate-700/30">
+                            <td class="py-3 text-slate-200 text-sm">28.02.2026</td>
+                            <td class="py-3 text-slate-200 text-sm">Gemeinsames Kochen</td>
+                            <td class="py-3 text-slate-200 text-sm">Gemeinschaftsraum 1</td>
+                            <td class="py-3 text-right">
+                                <div class="flex gap-2 justify-end">
+                                    <button onclick="editActivity(4)" class="p-1.5 hover:bg-blue-500/20 rounded transition-all" title="Bearbeiten">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2">
+                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                        </svg>
+                                    </button>
+                                    <button onclick="deleteActivity(4)" class="p-1.5 hover:bg-red-500/20 rounded transition-all" title="Löschen">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2">
+                                            <polyline points="3 6 5 6 21 6"></polyline>
+                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Activity Creation Modal -->
+    <div id="activityModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300 z-50">
+        <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-3xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto transform scale-95 transition-transform duration-300" id="modalContent">
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="16"></line>
+                        <line x1="8" y1="12" x2="16" y2="12"></line>
+                    </svg>
+                    Aktivität starten
+                </h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white transition-colors">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Form -->
+            <div class="space-y-4 mb-6">
+                <!-- Titel -->
+                <div>
+                    <label class="text-slate-300 text-sm mb-2 block font-medium">Titel der Aktivität</label>
+                    <input type="text" placeholder="z.B. 'Kaffee im Hausflur' oder 'Hilfe beim Umzug'" class="w-full bg-slate-700 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:border-rose-500 transition-colors">
+                </div>
+
+                <!-- Kategorie -->
+                <div>
+                    <label class="text-slate-300 text-sm mb-2 block font-medium">Kategorie</label>
+                    <select id="categorySelect" class="w-full bg-slate-700 border border-slate-600 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-rose-500 transition-colors">
+                        <option value="">Kategorie wählen...</option>
+                        <option value="plausch">Kurzer Plausch</option>
+                        <option value="aktiv">Gemeinsam aktiv</option>
+                        <option value="hilfe">Kleine Hilfe</option>
+                        <option value="reparieren">Reparieren und Tauschen</option>
+                        <option value="essen">Essen und Kochen teilen</option>
+                        <option value="kids">Spielzeit und Kids</option>
+                    </select>
+                </div>
+
+                <!-- Datum und Zeit -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-slate-300 text-sm mb-2 block font-medium">Datum</label>
+                        <input type="date" class="w-full bg-slate-700 border border-slate-600 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-rose-500 transition-colors">
+                    </div>
+                    <div>
+                        <label class="text-slate-300 text-sm mb-2 block font-medium">Uhrzeit</label>
+                        <input type="time" class="w-full bg-slate-700 border border-slate-600 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-rose-500 transition-colors">
+                    </div>
+                </div>
+
+                <!-- Schnellauswahl Zeit -->
+                <div class="flex gap-2 flex-wrap">
+                    <button onclick="setQuickTime('now')" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs rounded-lg transition-colors">Jetzt sofort</button>
+                    <button onclick="setQuickTime('15min')" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs rounded-lg transition-colors">In 15 Min</button>
+                    <button onclick="setQuickTime('30min')" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs rounded-lg transition-colors">In 30 Min</button>
+                    <button onclick="setQuickTime('1hour')" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs rounded-lg transition-colors">In 1 Stunde</button>
+                </div>
+
+                <!-- Ort -->
+                <div>
+                    <label class="text-slate-300 text-sm mb-2 block font-medium">Wo?</label>
+                    <select class="w-full bg-slate-700 border border-slate-600 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-rose-500 transition-colors">
+                        <option>Hausflur</option>
+                        <option>Innenhof</option>
+                        <option>Gemeinschaftsraum</option>
+                        <option>Eingangsbereich</option>
+                        <option>Garage</option>
+                        <option>Dachterrasse</option>
+                    </select>
+                </div>
+
+                <!-- Nachricht -->
+                <div>
+                    <label class="text-slate-300 text-sm mb-2 block font-medium">Kurze Nachricht (optional)</label>
+                    <textarea class="w-full bg-slate-700 border border-slate-600 rounded-xl px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:border-rose-500 transition-colors resize-none" rows="3" placeholder="z.B. 'Habe frischen Kuchen gebacken' oder 'Brauche Hilfe beim Tragen'"></textarea>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex gap-3">
+                <button onclick="closeModal()" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-medium py-3 px-4 rounded-xl transition-all">
+                    Abbrechen
+                </button>
+                <button onclick="confirmActivity()" class="flex-1 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white font-medium py-3 px-4 rounded-xl transition-all">
+                    Aktivität ankündigen
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Toast -->
+    <div id="toast" class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg opacity-0 transition-opacity duration-300 z-50">
+        <p id="toastMessage" class="text-sm font-medium"></p>
+    </div>
+
+    <script>
+        let contactAvailable = false;
+        let selectedNeed = null;
+
+        function toggleContact() {
+            contactAvailable = !contactAvailable;
+            const indicator = document.getElementById('contactIndicator');
+            const text = document.getElementById('contactText');
+            const toggle = document.getElementById('contactToggle');
+            
+            if (contactAvailable) {
+                indicator.classList.remove('bg-gray-400');
+                indicator.classList.add('bg-green-500');
+                text.textContent = 'Offen für Kontakt';
+                text.classList.remove('text-slate-300');
+                text.classList.add('text-green-300');
+                toggle.classList.add('border-green-500/50');
+                showToast('✓ Du bist jetzt offen für Kontakt');
+            } else {
+                indicator.classList.remove('bg-green-500');
+                indicator.classList.add('bg-gray-400');
+                text.textContent = 'Nicht offen';
+                text.classList.remove('text-green-300');
+                text.classList.add('text-slate-300');
+                toggle.classList.remove('border-green-500/50');
+                showToast('Status auf "nicht offen" gesetzt');
+            }
+        }
+
+        function selectNeed(need) {
+            // Reset all buttons
+            const buttons = document.querySelectorAll('.need-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-white');
+            });
+            
+            // Highlight selected
+            event.currentTarget.classList.add('ring-2', 'ring-white');
+            selectedNeed = need;
+            
+            const needNames = {
+                'plausch': 'Kurzer Plausch',
+                'aktiv': 'Gemeinsam aktiv',
+                'hilfe': 'Kleine Hilfe',
+                'reparieren': 'Reparieren und Tauschen',
+                'essen': 'Essen und Kochen teilen',
+                'kids': 'Spielzeit und Kids'
+            };
+            
+            showToast(`✓ Kategorie "${needNames[need]}" gesetzt`);
+        }
+
+        function quickAction(action) {
+            const actions = {
+                'hallo': 'Dein "Hallo" wurde gesendet'
+            };
+            showToast('✓ ' + actions[action]);
+        }
+
+        function quickTop3(category) {
+            openActivityModal();
+            
+            // Pre-select category in modal after it opens
+            setTimeout(() => {
+                const categorySelect = document.getElementById('categorySelect');
+                if (categorySelect) {
+                    categorySelect.value = category;
+                }
+            }, 100);
+        }
+
+        function openActivityModal() {
+            const modal = document.getElementById('activityModal');
+            const content = document.getElementById('modalContent');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('activityModal');
+            const content = document.getElementById('modalContent');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+            }, 200);
+        }
+
+        function setQuickTime(option) {
+            const now = new Date();
+            const dateInput = document.querySelector('input[type="date"]');
+            const timeInput = document.querySelector('input[type="time"]');
+            
+            // Set date to today
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            dateInput.value = `${year}-${month}-${day}`;
+            
+            // Calculate time based on option
+            let targetTime = new Date(now);
+            switch(option) {
+                case 'now':
+                    break;
+                case '15min':
+                    targetTime.setMinutes(targetTime.getMinutes() + 15);
+                    break;
+                case '30min':
+                    targetTime.setMinutes(targetTime.getMinutes() + 30);
+                    break;
+                case '1hour':
+                    targetTime.setHours(targetTime.getHours() + 1);
+                    break;
+            }
+            
+            const hours = String(targetTime.getHours()).padStart(2, '0');
+            const minutes = String(targetTime.getMinutes()).padStart(2, '0');
+            timeInput.value = `${hours}:${minutes}`;
+        }
+
+        function confirmActivity() {
+            closeModal();
+            setTimeout(() => {
+                showToast('✓ Aktivität wurde erfolgreich angekündigt');
+            }, 300);
+        }
+
+        // Intercom functions
+        function openIntercom() {
+            const modal = document.getElementById('intercomModal');
+            const content = document.getElementById('intercomContent');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeIntercom() {
+            const modal = document.getElementById('intercomModal');
+            const content = document.getElementById('intercomContent');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+            }, 200);
+        }
+
+        function callApartment(apartment) {
+            showToast(`📞 Rufe ${apartment} an...`);
+        }
+
+        function speakIntercom() {
+            showToast('🎤 Mikrofon aktiviert');
+        }
+
+        function openDoor() {
+            showToast('🚪 Tür wurde geöffnet');
+            setTimeout(() => {
+                closeIntercom();
+            }, 1000);
+        }
+
+        // My Activities functions
+        function openMyActivities() {
+            const modal = document.getElementById('myActivitiesModal');
+            const content = document.getElementById('myActivitiesContent');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeMyActivities() {
+            const modal = document.getElementById('myActivitiesModal');
+            const content = document.getElementById('myActivitiesContent');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+            }, 200);
+        }
+
+        function editActivity(id) {
+            showToast('✏️ Aktivität wird bearbeitet...');
+        }
+
+        function deleteActivity(id) {
+            showToast('🗑️ Aktivität wurde gelöscht');
+        }
+
+        // Toggle activity details in "Aktuelles im Haus"
+        function toggleActivity(id) {
+            const details = document.getElementById(`activity-${id}`);
+            const arrow = document.getElementById(`arrow-${id}`);
+            
+            if (details.classList.contains('hidden')) {
+                details.classList.remove('hidden');
+                arrow.style.transform = 'rotate(180deg)';
+            } else {
+                details.classList.add('hidden');
+                arrow.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function joinActivity(id) {
+            showToast('✓ Du hast dich erfolgreich angemeldet!');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = message;
+            toast.classList.remove('opacity-0');
+            toast.classList.add('opacity-100');
+            
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0');
+            }, 3000);
+        }
+    </script>
+
+</body>
+</html>
